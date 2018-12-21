@@ -9,21 +9,23 @@
     <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
-  <div class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Modal title</h5>
-        </div>
-        <div class="modal-body">
-          <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-        </div>
-        <div class="modal-footer">
-          <button type="button" id="btnLogin" onclick="$('.modal').toggle()" class="btn btn-primary">Anmelden</button>
+
+    <div class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Modal title</h5>
+          </div>
+          <div class="modal-body">
+            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="btnLogin" onclick="$('.modal').toggle()" class="btn btn-primary">Anmelden</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+
     <ul id="messages"></ul>
     <form action="">
       <input id="m" autocomplete="off" /><button>Send</button>
