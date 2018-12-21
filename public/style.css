@@ -39,4 +39,6 @@
   #messages {
       margin-bottom: 40px 
  }
- 
+ .modal { 
+      display: block 
+}
