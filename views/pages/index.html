@@ -49,27 +49,27 @@
 
     $(function () {
       var socket = io();
+
+      //sending a message
       $('form').submit(function () {
         fullmsg = { "author": $('#username').val(), "message": $('#m').val() };
-
-        console.log(btoa(fullmsg.author.toString()), btoa($('#username').val()));
         fullmsg = JSON.stringify(fullmsg);
+        
         socket.emit('chat message', fullmsg);
         $('#m').val('');
         return false;
       });
+
+      //recieving a message
       socket.on('chat message', function (fullmsg) {
         fullmsg = JSON.parse(fullmsg);
-        console.log(fullmsg.author);
-        console.log($('#username').val());
-        console.log(btoa(fullmsg.author.toString()), btoa($('#username').val()));
-        console.log(fullmsg.author.toString() === $('#username').val());
-
 
         if (fullmsg.author.toString() === $('#username').val()) {
+          //own messages
           $('#messages').append('<li><p align = "right">' + fullmsg.message + '</p>');
         }
         else {
+          //messages from others
           $('#messages').append('<li><p align = "left">' + fullmsg.message + '</p>');
         }
         window.scrollTo(0, document.body.scrollHeight);
