@@ -54,7 +54,7 @@
       $('form').submit(function () {
         fullmsg = { "author": $('#username').val(), "message": $('#m').val() };
         fullmsg = JSON.stringify(fullmsg);
-        
+
         socket.emit('chat message', fullmsg);
         $('#m').val('');
         return false;
@@ -79,14 +79,31 @@
       //recieving a url
       socket.on('url', function (fullmsg) {
         fullmsg = JSON.parse(fullmsg);
-        
+
         if (fullmsg.author.toString() === $('#username').val()) {
-          //own messages
+          //own urls
           $('#messages').append('<li><p align = "right"><a href="' + fullmsg.message + '">' + fullmsg.message + '</a> </p>');
         }
         else {
-          //messages from others
+          //urls from others
           $('#messages').append('<li><p align = "left"><a href="' + fullmsg.message + '">' + fullmsg.message + '</a> </p>');
+        }
+
+        window.scrollTo(0, document.body.scrollHeight);
+
+      });
+
+      //recieving a image
+      socket.on('image', function (fullmsg) {
+        fullmsg = JSON.parse(fullmsg);
+
+        if (fullmsg.author.toString() === $('#username').val()) {
+          //own images
+          $('#messages').append('<li><p align = "right"><img src="' + fullmsg.message + '"></img> </p>');
+        }
+        else {
+          //images from others
+          $('#messages').append('<li><p align = "left"><img src="' + fullmsg.message + '"></img> </p>');
         }
 
         window.scrollTo(0, document.body.scrollHeight);

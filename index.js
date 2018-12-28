@@ -1,3 +1,4 @@
+var isImageUrl = require('is-image-url');
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -22,12 +23,22 @@ io.on('connection', function(socket){
 
     if(expression.test(msg)) {
       url = msg.match(expression);
-
+      url = addhttp(url);
+      url = url.toString();
+      console.log(url);
       msg = JSON.parse(msg);
-      fullmsg = { "author": msg.author , "message": addhttp(url) };
+
+      fullmsg = { "author": msg.author , "message": url };
       fullmsg = JSON.stringify(fullmsg);
-      
-      io.emit('url', fullmsg);
+
+      //check if url is image
+      if(isImageUrl(url)){
+        io.emit('image', fullmsg);
+      }
+      else{
+        io.emit('url', fullmsg);
+      }
+
     }
 
   });
