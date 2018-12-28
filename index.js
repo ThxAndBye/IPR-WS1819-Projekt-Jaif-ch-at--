@@ -25,7 +25,7 @@ io.on('connection', function(socket){
       url = msg.match(expression);
       url = addhttp(url);
       url = url.toString();
-      console.log(url);
+
       msg = JSON.parse(msg);
 
       fullmsg = { "author": msg.author , "message": url };

@@ -63,56 +63,47 @@
       //recieving a message
       socket.on('chat message', function (fullmsg) {
         fullmsg = JSON.parse(fullmsg);
+        let isOwn = fullmsg.author.toString() === $('#username').val();
 
-        if (fullmsg.author.toString() === $('#username').val()) {
-          //own messages
-          $('#messages').append('<li><p align = "right">' + fullmsg.message + '</p>');
-        }
-        else {
-          //messages from others
-          $('#messages').append('<li><p align = "left">' + fullmsg.message + '</p>');
-        }
-        window.scrollTo(0, document.body.scrollHeight);
+        sendMessage(fullmsg.message.toString(), isOwn);
 
       });
 
       //recieving a url
       socket.on('url', function (fullmsg) {
         fullmsg = JSON.parse(fullmsg);
+        let isOwn = fullmsg.author.toString() === $('#username').val();
 
-        if (fullmsg.author.toString() === $('#username').val()) {
-          //own urls
-          $('#messages').append('<li><p align = "right"><a href="' + fullmsg.message + '">' + fullmsg.message + '</a> </p>');
-        }
-        else {
-          //urls from others
-          $('#messages').append('<li><p align = "left"><a href="' + fullmsg.message + '">' + fullmsg.message + '</a> </p>');
-        }
-
-        window.scrollTo(0, document.body.scrollHeight);
+        sendMessage('<a target=”_blank” href=\"' + fullmsg.message + '\">' + fullmsg.message + '</a>', isOwn);
 
       });
 
       //recieving a image
       socket.on('image', function (fullmsg) {
         fullmsg = JSON.parse(fullmsg);
+        let isOwn = fullmsg.author.toString() === $('#username').val();
 
-        if (fullmsg.author.toString() === $('#username').val()) {
-          //own images
-          $('#messages').append('<li><p align = "right"><img src="' + fullmsg.message + '"></img> </p>');
-        }
-        else {
-          //images from others
-          $('#messages').append('<li><p align = "left"><img src="' + fullmsg.message + '"></img> </p>');
-        }
-
-        window.scrollTo(0, document.body.scrollHeight);
+        sendMessage('<img src="' + fullmsg.message + '"></img>', isOwn);
 
       });
 
 
 
     });
+
+    function sendMessage(appendString, isOwn) {
+        if (isOwn) {
+          //own message
+          $('#messages').append('<li><p align = "right">' + appendString + '</p>');
+        }
+        else {
+          //message from others
+          $('#messages').append('<li><p align = "left">' + appendString + '</p>');
+        }
+
+        window.scrollTo(0, document.body.scrollHeight);
+      }
+
   </script>
 </body>
 
