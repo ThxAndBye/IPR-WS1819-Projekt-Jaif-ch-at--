@@ -1,77 +1,85 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    
-    <title>IPR WS1819 JaifCh@</title>
-    <link rel="stylesheet" href="/styles.css">
-  </head>
-  <body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <div class="modal" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Modal title</h5>
-          </div>
-          <div class="modal-body">
-            <input id="username" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-          </div>
-          <div class="modal-footer">
-            <button type="button" id="btnLogin" onclick="$('.modal').toggle()" class="btn btn-primary">Anmelden</button>
-          </div>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
+  <title>IPR WS1819 JaifCh@</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+
+  <div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Modal title</h5>
+        </div>
+        <div class="modal-body">
+          <input id="username" type="text" class="form-control" placeholder="Username" aria-label="Username"
+            aria-describedby="basic-addon1">
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="btnLogin" onclick="$('.modal').toggle()" class="btn btn-primary">Anmelden</button>
         </div>
       </div>
     </div>
+  </div>
 
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
-    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script>
+  <ul id="messages"></ul>
+  <form action="">
+    <input id="m" autocomplete="off" /><button>Send</button>
+  </form>
+  <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script>
 
-      
 
-      $(function () {
-        var socket = io();
-        $('form').submit(function(){
-          fullmsg = {"author" : $('#username').val() , "message" : $('#m').val()};
-          
-          console.log(btoa(fullmsg.author.toString()), btoa($('#username').val()));
-          fullmsg = JSON.stringify(fullmsg);
-          socket.emit('chat message', fullmsg);
-          $('#m').val('');
-          return false;
-        });
-          socket.on('chat message', function(fullmsg){
-            fullmsg = JSON.parse(fullmsg);
-            console.log(fullmsg.author);
-            console.log($('#username').val());
-            console.log(btoa(fullmsg.author.toString()), btoa($('#username').val()));
-            console.log(fullmsg.author.toString() === $('#username').val());
 
-            if(new String(fullmsg.author).localeCompare(new String($('#username').val())));
-            
-            if(new String(fullmsg.author).localeCompare($('username').val())){
-          $('#messages').append('<li><p align = "left">' + "links" + '</p>');}
-            else{
-              $('#messages').append('<li><p align = "right">' + "rechts" + '</p>');
-            }
-          window.scrollTo(0, document.body.scrollHeight);
-          
-        });
-         
-        
-        
+    $(function () {
+      var socket = io();
+      $('form').submit(function () {
+        fullmsg = { "author": $('#username').val(), "message": $('#m').val() };
+
+        console.log(btoa(fullmsg.author.toString()), btoa($('#username').val()));
+        fullmsg = JSON.stringify(fullmsg);
+        socket.emit('chat message', fullmsg);
+        $('#m').val('');
+        return false;
       });
-    </script>
-  </body>
+      socket.on('chat message', function (fullmsg) {
+        fullmsg = JSON.parse(fullmsg);
+        console.log(fullmsg.author);
+        console.log($('#username').val());
+        console.log(btoa(fullmsg.author.toString()), btoa($('#username').val()));
+        console.log(fullmsg.author.toString() === $('#username').val());
+
+
+        if (fullmsg.author.toString() === $('#username').val()) {
+          $('#messages').append('<li><p align = "right">' + fullmsg.message + '</p>');
+        }
+        else {
+          $('#messages').append('<li><p align = "left">' + fullmsg.message + '</p>');
+        }
+        window.scrollTo(0, document.body.scrollHeight);
+
+      });
+
+
+
+    });
+  </script>
+</body>
+
 </html>
