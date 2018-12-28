@@ -13,19 +13,6 @@
     <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
-<<<<<<< HEAD
-  <div class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Modal title</h5>
-        </div>
-        <div class="modal-body">
-          <input type="text" id = "username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-        </div>
-        <div class="modal-footer">
-          <button type="button" id="btnLogin" onclick="$('.modal').toggle()" class="btn btn-primary">Anmelden</button>
-=======
 
     <div class="modal" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
@@ -34,12 +21,11 @@
             <h5 class="modal-title">Modal title</h5>
           </div>
           <div class="modal-body">
-            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+            <input id="username" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
           </div>
           <div class="modal-footer">
             <button type="button" id="btnLogin" onclick="$('.modal').toggle()" class="btn btn-primary">Anmelden</button>
           </div>
->>>>>>> 7c4f77058a8d8d9ab80cc8ae9988bf777278d894
         </div>
       </div>
     </div>
@@ -58,16 +44,21 @@
         var socket = io();
         $('form').submit(function(){
           fullmsg = {"author" : $('#username').val() , "message" : $('#m').val()};
-         
+          
+          console.log(btoa(fullmsg.author.toString()), btoa($('#username').val()));
+          fullmsg = JSON.stringify(fullmsg);
           socket.emit('chat message', fullmsg);
           $('#m').val('');
           return false;
         });
           socket.on('chat message', function(fullmsg){
+            fullmsg = JSON.parse(fullmsg);
             console.log(fullmsg.author);
             console.log($('#username').val());
-            console.log(new String(fullmsg.author)===(new String($('username').val())));
-            if(new String(fullmsg.author).localeCompare(new String($('username').val())));
+            console.log(btoa(fullmsg.author.toString()), btoa($('#username').val()));
+            console.log(fullmsg.author.toString() === $('#username').val());
+
+            if(new String(fullmsg.author).localeCompare(new String($('#username').val())));
             
             if(new String(fullmsg.author).localeCompare($('username').val())){
           $('#messages').append('<li><p align = "left">' + "links" + '</p>');}
