@@ -76,6 +76,23 @@
 
       });
 
+      //recieving a url
+      socket.on('url', function (fullmsg) {
+        fullmsg = JSON.parse(fullmsg);
+        
+        if (fullmsg.author.toString() === $('#username').val()) {
+          //own messages
+          $('#messages').append('<li><p align = "right"><a href="' + fullmsg.message + '">' + fullmsg.message + '</a> </p>');
+        }
+        else {
+          //messages from others
+          $('#messages').append('<li><p align = "left"><a href="' + fullmsg.message + '">' + fullmsg.message + '</a> </p>');
+        }
+
+        window.scrollTo(0, document.body.scrollHeight);
+
+      });
+
 
 
     });
