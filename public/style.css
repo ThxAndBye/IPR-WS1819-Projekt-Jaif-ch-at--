@@ -6,6 +6,12 @@
   body {
       font: 13px Helvetica, Arial;
  }
+.svg {
+    display: inline-block;
+    filter: invert(1);
+    margin: 0 0 3px -3px;
+}
+  /*
   form {
       background: #000;
       padding: 3px;
@@ -25,7 +31,8 @@
       border: none;
       padding: 10px;
  }
- 
+ */
+
  .modal { 
       display: block 
 }
@@ -75,6 +82,41 @@
 }
 
 .msg_history {
-     height: 100%;
+     height: auto;
      overflow-y: auto;
+}
+
+.type_msg {
+    border-top: 1px solid #c4c4c4;
+    position: fixed;
+    bottom:0;
+    left:0;
+    width: 100%;
+    background: white;
+}
+.msg_send_btn {
+    background: #05728f none repeat scroll 0 0;
+    border: medium none;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    font-size: 17px;
+    height: 33px;
+    position: absolute;
+    right: 0;
+    top: 11px;
+    width: 33px;
+}
+.input_msg_write input {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: medium none;
+    color: #4c4c4c;
+    font-size: 15px;
+    min-height: 48px;
+    width: 100%;
+}
+
+.mesgs {
+    height: 100%;
+    margin-bottom: 64px;
 }
