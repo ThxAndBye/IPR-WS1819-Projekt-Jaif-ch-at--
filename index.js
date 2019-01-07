@@ -19,7 +19,9 @@ app.get('/script.js', function(req, res){
 io.on('connection', function(socket){
   socket.on('chat message', function(msg){
 
-    io.emit('chat message', msg);
+    let chkmsg = JSON.parse(msg);
+    let isEmpty = (chkmsg.message === "" || !chkmsg.message.replace(/\s/g, '').length);
+    if (!isEmpty) io.emit('chat message', msg);
 
     //message contains url
     let expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
