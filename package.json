@@ -4,9 +4,11 @@
   "description": "my first socket.io app",
   "dependencies": {
     "express": "^4.16.4",
+    "get-title-at-url": "^1.1.6",
     "is-image-url": "^1.1.8",
     "nodemon": "^1.18.9",
-    "socket.io": "^1.7.4"
+    "socket.io": "^1.7.4",
+    "url-to-title": "^1.0.6"
   },
   "scripts": {
     "start": "node index.js"
