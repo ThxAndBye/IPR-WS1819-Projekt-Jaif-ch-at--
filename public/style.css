@@ -34,6 +34,9 @@
     width: 55%;
     padding: 0 10px 0 0;
 }
+.outgoing_msg p a {
+     color: wheat;
+ }
 
 .incomming_msg p {
     background: #ebebeb none repeat scroll 0 0;
