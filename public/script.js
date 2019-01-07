@@ -56,11 +56,11 @@ $(function () {
   function recieveMessage(appendString, isOwn) {
       if (isOwn) {
         //own message
-        $('.msg_history').append('<div class="outgoing_msg"><div class="sent_msg"><p>' + appendString + '</p></div></div>');
+        $('.msg_history').append('<div class="outgoing_msg"><p>' + appendString + '</p></div>');
       }
       else {
         //message from others
-        $('.msg_history').append('<div class="incomming_msg"></div><div class="received_msg"><div class="received_withd_msg"><p>' + appendString + '</p></div></div></div>');
+        $('.msg_history').append('<div class="incomming_msg"><p>' + appendString + '</p></div>');
       }
 
       window.scrollTo(0, document.body.scrollHeight);
