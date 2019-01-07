@@ -45,6 +45,7 @@
      margin: 0;
      padding: 5px 10px 5px 12px;
      width: 100%;
+     word-break: break-all;
 }
 .incoming_msg_img {
      display: inline-block;
@@ -70,6 +71,7 @@
      margin: 0; color:#fff;
      padding: 5px 10px 5px 12px;
      width:100%;
+     word-break: break-all;
 }
 
 .msg_history {
