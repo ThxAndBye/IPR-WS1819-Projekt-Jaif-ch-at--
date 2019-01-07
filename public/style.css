@@ -51,12 +51,8 @@
      font-size: 14px;
      margin: 0;
      padding: 5px 10px 5px 12px;
-     width: 100%;
+     width: 55%;
      word-break: break-all;
-}
-.incoming_msg_img {
-     display: inline-block;
-     width: 6%;
 }
 
 .outgoing_msg{ 
@@ -65,7 +61,8 @@
 }
 .sent_msg {
   float: right;
-  width: 46%;
+  width: 55%;
+    padding-right: 10px;
 }
 .sent_msg a {
      color: wheat;
