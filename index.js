@@ -20,15 +20,16 @@ io.on('connection', function(socket){
   socket.on('chat message', function(msg){
 
     let chkmsg = JSON.parse(msg);
-    let isEmpty = (chkmsg.message === "" || !chkmsg.message.replace(/\s/g, '').length);
+    chkmsg = chkmsg.message;
+    let isEmpty = (chkmsg === "" || !chkmsg.replace(/\s/g, '').length);
     if (!isEmpty) io.emit('chat message', msg);
 
     //message contains url
     let expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
     let regex = new RegExp(expression);
 
-    if(expression.test(msg)) {
-      url = msg.match(expression);
+    if(expression.test(chkmsg)) {
+      url = chkmsg.match(expression);
       url = addhttp(url);
       url = url.toString();
 
