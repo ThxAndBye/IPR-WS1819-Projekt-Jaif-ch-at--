@@ -1,4 +1,6 @@
 var isImageUrl = require('is-image-url');
+var getTitleAtUrl = require('url-to-title');
+
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -43,9 +45,17 @@ io.on('connection', function(socket){
         io.emit('image', fullmsg);
       }
       else{
-        io.emit('url', fullmsg);
+        //get the title from the webpage
+        getTitleAtUrl(url).then(function(title) {
+          let urlmsg = { "author": msg.author , "url":  url, "title": title };
+          urlmsg = JSON.stringify(urlmsg);
+          io.emit('url', urlmsg);
+        }).catch((err) => {
+          fullmsg = { "author": msg.author , "message": url };
+          fullmsg = JSON.stringify(fullmsg);
+          io.emit('rawurl', fullmsg);
+        });
       }
-
     }
 
   });
