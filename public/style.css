@@ -65,6 +65,10 @@
      height: auto;
      overflow-y: auto;
 }
+.msg_history img{
+     width: 100%;
+     height: auto;
+ }
 
 .type_msg {
     border-top: 1px solid #c4c4c4;
