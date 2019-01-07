@@ -16,7 +16,7 @@ $(function () {
       fullmsg = JSON.parse(fullmsg);
       let isOwn = fullmsg.author.toString() === $('#username').val();
 
-      sendMessage(fullmsg.message.toString(), isOwn);
+      recieveMessage(fullmsg.message.toString(), isOwn);
 
     });
 
@@ -25,7 +25,7 @@ $(function () {
       fullmsg = JSON.parse(fullmsg);
       let isOwn = fullmsg.author.toString() === $('#username').val();
 
-      sendMessage('<a target=”_blank” href=\"' + fullmsg.message + '\">' + fullmsg.message + '</a>', isOwn);
+      recieveMessage('<a target=”_blank” href=\"' + fullmsg.message + '\">' + fullmsg.message + '</a>', isOwn);
 
     });
 
@@ -34,7 +34,7 @@ $(function () {
       fullmsg = JSON.parse(fullmsg);
       let isOwn = fullmsg.author.toString() === $('#username').val();
 
-      sendMessage('<img src="' + fullmsg.message + '"></img>', isOwn);
+      recieveMessage('<img src="' + fullmsg.message + '"></img>', isOwn);
 
     });
 
@@ -42,14 +42,14 @@ $(function () {
 
   });
 
-  function sendMessage(appendString, isOwn) {
+  function recieveMessage(appendString, isOwn) {
       if (isOwn) {
         //own message
-        $('#messages').append('<li><p align = "right">' + appendString + '</p>');
+        $('.msg_history').append('<div class="outgoing_msg"><div class="sent_msg"><p>' + appendString + '</p></div></div>');
       }
       else {
         //message from others
-        $('#messages').append('<li><p align = "left">' + appendString + '</p>');
+        $('.msg_history').append('<div class="incomming_msg"></div><div class="received_msg"><div class="received_withd_msg"><p>' + appendString + '</p></div></div></div>');
       }
 
       window.scrollTo(0, document.body.scrollHeight);
