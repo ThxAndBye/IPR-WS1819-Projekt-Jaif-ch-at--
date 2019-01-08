@@ -112,13 +112,13 @@
     color: #c4c4c4;
     display: block;
     font-size: 12px;
-    margin: 2px 2px 0;
+    margin: 2px 0 0 4px;
 }
 
 .time_date_outgoing {
     color: #c4c4c4;
     display: block;
     font-size: 12px;
-    margin: 2px 0 0 2px;
+    margin: 2px 4px 0 0px;
     text-align: right;
 }
