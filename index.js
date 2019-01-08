@@ -7,6 +7,8 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
 
+var messages = new Array();
+
 //routes for files
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/views/pages/index.html');
@@ -34,58 +36,26 @@ app.get('/notify.js', function(req, res){
 
 //socket io handling
 io.on('connection', function(socket){
+
+  //get id of newly connected client
+  var id = socket.id;
+
+  //send old messages to new client 
+  for (let i = 0; i < messages.length; i++) {
+      let oldmsg = messages[i];
+      parseMessage(oldmsg, true, id);
+    
+  }
+
   socket.on('chat message', function(msg){
 
-    let chkmsg = JSON.parse(msg);
-    chkmsg = chkmsg.message;
-    let isEmpty = (chkmsg === "" || !chkmsg.replace(/\s/g, '').length);
-    if (!isEmpty) io.emit('chat message', msg);
-
-    //message contains url
-    let urlexp = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
-    let youtubeexp = /(?:youtube\.[a-z]+.?[a-z]+\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/gi;
-
-    if(urlexp.test(chkmsg)) {
-      let urls = chkmsg.match(urlexp);
-      msg = JSON.parse(msg);
-
-      //handle more one or more url(s) in a message
-      urls.forEach(url => {
-        //add http:// to url if not present
-        url = addhttp(url).toString();
-
-        //build the message
-        fullmsg = { "author": msg.author , "message": url };
-        fullmsg = JSON.stringify(fullmsg);
-
-        //check if url is image
-        if(isImageUrl(url)){
-          io.emit('image', fullmsg);
-
-        //check for youtube
-        } else if(youtubeexp.test(url)){
-          let id = getYouTubeID(url);
-          let ytmsg = { "author": msg.author , "id":  id};
-          ytmsg = JSON.stringify(ytmsg);
-          io.emit('youtube', ytmsg);
-         
-        // if url is "normal" 
-        } else {
-          //get the title from the webpage
-          getTitleAtUrl(url).then(function(title) {
-            let urlmsg = { "author": msg.author , "url":  url, "title": title };
-            urlmsg = JSON.stringify(urlmsg);
-            io.emit('url', urlmsg);
-
-          //if title can't be resolved, fallback to raw url  
-          }).catch((err) => {
-            fullmsg = { "author": msg.author , "message": url };
-            fullmsg = JSON.stringify(fullmsg);
-            io.emit('rawurl', fullmsg);
-          });
-        }
-      });
+    //add message to array
+    if(!(JSON.parse(msg).message === "")){
+      messages.push(msg);
     }
+
+    //send message out to connected clients
+    parseMessage(msg, false, null);
   });
 });
 
@@ -93,6 +63,83 @@ http.listen(port, function(){
   console.log('listening on *:' + port);
 });
 
+//function to handle the messages on the server
+function parseMessage(msg, additional, socketId){
+
+  let chkmsg = JSON.parse(msg);
+  chkmsg = chkmsg.message;
+
+  //check if message is empty
+  let isEmpty = (chkmsg === "" || !chkmsg.replace(/\s/g, '').length);
+  if (!isEmpty && !additional) {
+    io.emit('chat message', msg);
+  } else {
+    io.to(`${socketId}`).emit('chat message', msg);
+  }
+
+
+  //message contains url
+  let urlexp = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+  let youtubeexp = /(?:youtube\.[a-z]+.?[a-z]+\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/gi;
+
+  if(urlexp.test(chkmsg)) {
+    let urls = chkmsg.match(urlexp);
+    msg = JSON.parse(msg);
+
+    //handle more one or more url(s) in a message
+    urls.forEach(url => {
+      //add http:// to url if not present
+      url = addhttp(url).toString();
+
+      //build the message
+      fullmsg = { "author": msg.author , "message": url };
+      fullmsg = JSON.stringify(fullmsg);
+
+      //check if url is image
+      if(isImageUrl(url)){
+        if (!additional) {
+          io.emit('image', fullmsg);
+        } else {
+          io.to(`${socketId}`).emit('image', fullmsg);
+        }
+
+      //check for youtube
+      } else if(youtubeexp.test(url)){
+        let id = getYouTubeID(url);
+        let ytmsg = { "author": msg.author , "id":  id};
+        ytmsg = JSON.stringify(ytmsg);
+        if (!additional) {
+          io.emit('youtube', ytmsg);
+        } else {
+          io.to(`${socketId}`).emit('youtube', ytmsg);
+        }
+       
+      // if url is "normal" 
+      } else {
+        //get the title from the webpage
+        getTitleAtUrl(url).then(function(title) {
+          let urlmsg = { "author": msg.author , "url":  url, "title": title };
+          urlmsg = JSON.stringify(urlmsg);
+          if (!additional) {
+            io.emit('url', urlmsg);
+          } else {
+            io.to(`${socketId}`).emit('url', urlmsg);
+          }
+
+        //if title can't be resolved, fallback to raw url  
+        }).catch((err) => {
+          fullmsg = { "author": msg.author , "message": url };
+          fullmsg = JSON.stringify(fullmsg);
+          if (!additional) {
+            io.emit('rawurl', fullmsg);
+          } else {
+            io.to(`${socketId}`).emit('rawurl', fullmsg);
+          }
+        });
+      }
+    });
+  }
+}
 
 function addhttp(url) {
   if (!/^(f|ht)tps?:\/\//i.test(url)) {
