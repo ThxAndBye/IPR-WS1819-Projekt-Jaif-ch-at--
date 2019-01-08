@@ -41,6 +41,16 @@ $(function () {
 
   });
 
+      //recieving a youtubeid
+      socket.on('youtube', function (ytmsg) {
+        ytmsg = JSON.parse(ytmsg);
+        let isOwn = ytmsg.author.toString() === $('#username').val();
+  
+        console.log(ytmsg);
+        recieveMessage('<iframe id="ytplayer" type="text/html" width="640" height="360" src="https://www.youtube.com/embed/' + ytmsg.id + '" frameborder="0"></iframe>', isOwn, ytmsg.id, ytmsg.author);
+  
+      });
+
     //recieving a image
     socket.on('image', function (fullmsg) {
       fullmsg = JSON.parse(fullmsg);

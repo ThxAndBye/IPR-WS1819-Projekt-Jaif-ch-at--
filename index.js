@@ -1,5 +1,6 @@
 var isImageUrl = require('is-image-url');
 var getTitleAtUrl = require('url-to-title');
+var getYouTubeID = require('get-youtube-id');
 
 var app = require('express')();
 var http = require('http').Server(app);
@@ -42,7 +43,7 @@ io.on('connection', function(socket){
 
     //message contains url
     let expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
-    let regex = new RegExp(expression);
+    let youtube = /(?:youtube\.[a-z]+.?[a-z]+\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/gi;
 
     if(expression.test(chkmsg)) {
       let urls = chkmsg.match(expression);
@@ -61,7 +62,14 @@ io.on('connection', function(socket){
         if(isImageUrl(url)){
           io.emit('image', fullmsg);
 
-        //if url is a normal url  
+        //check for youtube
+        } else if(youtube.test(chkmsg)){
+          let id = getYouTubeID(url);
+          let ytmsg = { "author": msg.author , "id":  id};
+          ytmsg = JSON.stringify(ytmsg);
+          io.emit('youtube', ytmsg);
+         
+        // if url is "normal" 
         } else {
           //get the title from the webpage
           getTitleAtUrl(url).then(function(title) {
