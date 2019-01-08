@@ -30,7 +30,7 @@ $(function () {
 
     });
 
-    //recieving a raw url
+    //recieving a raw url (when url title parsing fails)
     socket.on('rawurl', function (fullmsg) {
       console.log(fullmsg);
       fullmsg = JSON.parse(fullmsg);
@@ -50,8 +50,8 @@ $(function () {
 
     });
 
-    //close modal on Enter
 
+    //close modal on Enter
     $('.modal').keypress(function(e){
       if(e.which == 13) {
         $('.modal').toggle();
@@ -85,7 +85,6 @@ $(function () {
 
       }
 
-      //window.scrollTo(0, document.body.scrollHeight);
       $('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
     }
   
