@@ -35,33 +35,39 @@ io.on('connection', function(socket){
     let regex = new RegExp(expression);
 
     if(expression.test(chkmsg)) {
-      url = chkmsg.match(expression);
-      url = addhttp(url);
-      url = url.toString();
-
+      let urls = chkmsg.match(expression);
       msg = JSON.parse(msg);
 
-      fullmsg = { "author": msg.author , "message": url };
-      fullmsg = JSON.stringify(fullmsg);
+      //handle more one or more url(s) in a message
+      urls.forEach(url => {
+        //add http:// to url if not present
+        url = addhttp(url).toString();
 
-      //check if url is image
-      if(isImageUrl(url)){
-        io.emit('image', fullmsg);
-      }
-      else{
-        //get the title from the webpage
-        getTitleAtUrl(url).then(function(title) {
-          let urlmsg = { "author": msg.author , "url":  url, "title": title };
-          urlmsg = JSON.stringify(urlmsg);
-          io.emit('url', urlmsg);
-        }).catch((err) => {
-          fullmsg = { "author": msg.author , "message": url };
-          fullmsg = JSON.stringify(fullmsg);
-          io.emit('rawurl', fullmsg);
-        });
-      }
+        //build the message
+        fullmsg = { "author": msg.author , "message": url };
+        fullmsg = JSON.stringify(fullmsg);
+
+        //check if url is image
+        if(isImageUrl(url)){
+          io.emit('image', fullmsg);
+
+        //if url is a normal url  
+        } else {
+          //get the title from the webpage, emit rawurl in case of a problem
+          getTitleAtUrl(url).then(function(title) {
+            let urlmsg = { "author": msg.author , "url":  url, "title": title };
+            urlmsg = JSON.stringify(urlmsg);
+            io.emit('url', urlmsg);
+
+          //if title cant be resolved  
+          }).catch((err) => {
+            fullmsg = { "author": msg.author , "message": url };
+            fullmsg = JSON.stringify(fullmsg);
+            io.emit('rawurl', fullmsg);
+          });
+        }
+      });
     }
-
   });
 });
 

@@ -51,7 +51,7 @@ $(function () {
     });
 
 
-    //close modal on Enter
+    //check for ENTER in modal
     $('.modal').keypress(function(e){
       if(e.which == 13) {
         startChat();
@@ -80,7 +80,7 @@ $(function () {
         $('.msg_history').append('<div class="incomming_msg"><p>' + appendString + '</p><span class="time_date_incomming"> '+ author +' @ ' + currentDate.toLocaleTimeString() + ' | ' + currentDate.toDateString() + '</span></div>');
         
         
-        //check if windows has focus
+        //check if window has focus
         let focused = document.hasFocus();
 
         //show a notification
@@ -94,6 +94,7 @@ $(function () {
 
       }
 
+      //scroll chat to the bottom
       $('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
     }
 
