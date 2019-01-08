@@ -37,15 +37,20 @@ app.get('/notify.js', function(req, res){
 //socket io handling
 io.on('connection', function(socket){
 
-  //get id of newly connected client
-  var id = socket.id;
+    //checking for a new connection
+    socket.on('new connection', function() {
+      
+    //get id of newly connected client
+    var id = socket.id;
 
-  //send old messages to new client 
-  for (let i = 0; i < messages.length; i++) {
-      let oldmsg = messages[i];
-      parseMessage(oldmsg, true, id);
-    
-  }
+    //send old messages to new client 
+    for (let i = 0; i < messages.length; i++) {
+        let oldmsg = messages[i];
+        parseMessage(oldmsg, true, id);
+      
+    }
+  });
+  
 
   socket.on('chat message', function(msg){
 

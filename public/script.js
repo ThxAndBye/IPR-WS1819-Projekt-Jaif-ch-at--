@@ -65,18 +65,24 @@ $(function () {
     $('.modal').keypress(function(e){
       if(e.which == 13) {
         startChat();
+        
       }
     })
 
-  });
+    //function executed after username is entered, checks if name is not empty
+    function startChat(){
+      if ($('#username').val().replace(/\s/g, '').length) {
+        $('.modal').toggle();
+        $('#m').focus();
 
-  //function executed after username is entered, checks if name is not empty
-  function startChat(){
-    if ($('#username').val().replace(/\s/g, '').length) {
-      $('.modal').toggle();
-      $('#m').focus();
+        //notify server of new connection
+        socket.emit('new connection');
     }
   }
+
+  });
+
+
 
   //function to add a message to the chat (all parameters are requiered)
   function recieveMessage(appendString, isOwn, message, author) {
