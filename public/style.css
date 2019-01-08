@@ -99,7 +99,6 @@
     font-size: 15px;
     min-height: 48px;
     width: 100%;
-    margin-left: 10px;
 }
 
 .mesgs {
@@ -107,9 +106,18 @@
     margin-bottom: 64px;
 }
 
-.time_date {
+.time_date_incomming {
     color: #747474;
     display: block;
     font-size: 12px;
-    margin: 2px 0 0;
+    margin: 2px 2px 0;
+
+}
+
+.time_date_outgoing {
+    color: #747474;
+    display: block;
+    font-size: 12px;
+    margin: 2px 0 0 2px;
+    text-align: right;
 }

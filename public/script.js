@@ -56,12 +56,13 @@ $(function () {
   function recieveMessage(appendString, isOwn) {
       if (isOwn) {
         //own message
-        $('.msg_history').append('<div class="outgoing_msg"><p>' + appendString + '</p><span class="time_date"> 11:01 AM    |    June 9</span></div>');
+        $('.msg_history').append('<div class="outgoing_msg"><p>' + appendString + '</p><span class="time_date_outgoing"> '+ $('#username').val() +'  11:01 AM    |    June 9</span></div>');
       }
       else {
         //message from others
-        $('.msg_history').append('<div class="incomming_msg"><p>' + appendString + '</p><span class="time_date"> 11:01 AM    |    June 9</span></div>');
+        $('.msg_history').append('<div class="incomming_msg"><p>' + appendString + '</p><span class="time_date_incomming"> '+ fullmsg.author.toString() + ' 11:01 AM    |    June 9</span></div>');
       }
 
       window.scrollTo(0, document.body.scrollHeight);
     }
+
