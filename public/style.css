@@ -2,21 +2,21 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
- }
-  body {
+}
+
+body {
       font: 13px Helvetica, Arial;
  }
+
 .svg {
     display: inline-block;
     filter: invert(1);
     margin: 0 0 3px -3px;
 }
 
-
- .modal { 
+.modal { 
       display: block 
 }
-
 
 .incomming_msg {
     margin:15px 0 15px;

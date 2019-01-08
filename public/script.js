@@ -54,13 +54,21 @@ $(function () {
     //close modal on Enter
     $('.modal').keypress(function(e){
       if(e.which == 13) {
-        $('.modal').toggle();
-        $('#m').focus();
+        startChat();
       }
     })
 
   });
 
+  //function executed after username is entered, checks if name is not empty
+  function startChat(){
+    if ($('#username').val().replace(/\s/g, '').length) {
+      $('.modal').toggle();
+      $('#m').focus();
+    }
+  }
+
+  //function to add a message to the chat (all parameters are requiered)
   function recieveMessage(appendString, isOwn, message, author) {
       let currentDate = new Date();
       if (isOwn) {
