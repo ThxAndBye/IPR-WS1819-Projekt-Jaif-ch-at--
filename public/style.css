@@ -35,7 +35,7 @@
     width: 55%;
     padding: 0 10px 0 0;
 }
-.outgoing_msg p a {
+.outgoing_msg > p > a {
      color: wheat;
  }
 
@@ -99,6 +99,8 @@
     font-size: 15px;
     min-height: 48px;
     width: 100%;
+    margin-left: 10px;
+    word-break: break-all;
 }
 
 .mesgs {
@@ -107,15 +109,14 @@
 }
 
 .time_date_incomming {
-    color: #747474;
+    color: #c4c4c4;
     display: block;
     font-size: 12px;
     margin: 2px 2px 0;
-
 }
 
 .time_date_outgoing {
-    color: #747474;
+    color: #c4c4c4;
     display: block;
     font-size: 12px;
     margin: 2px 0 0 2px;

@@ -1,5 +1,6 @@
 $(function () {
     var socket = io();
+    Notify.requestPermission();
 
     //sending a message
     $('form').submit(function () {
@@ -16,7 +17,7 @@ $(function () {
       fullmsg = JSON.parse(fullmsg);
       let isOwn = fullmsg.author.toString() === $('#username').val();
 
-      recieveMessage(fullmsg.message.toString(), isOwn);
+      recieveMessage(fullmsg.message.toString(), isOwn, fullmsg.message, fullmsg.author);
 
     });
 
@@ -25,7 +26,7 @@ $(function () {
       urlmsg = JSON.parse(urlmsg);
       let isOwn = urlmsg.author.toString() === $('#username').val();
 
-      recieveMessage('<a target=”_blank” href=\"' + urlmsg.url + '\">' + urlmsg.title + '</a>', isOwn);
+      recieveMessage('<a target=”_blank” href=\"' + urlmsg.url + '\">' + urlmsg.title + '</a>', isOwn, urlmsg.title, urlmsg.author);
 
     });
 
@@ -36,7 +37,7 @@ $(function () {
       let isOwn = fullmsg.author.toString() === $('#username').val();
       console.log("Stuff: " + fullmsg);
 
-      recieveMessage('<a target=”_blank” href=\"' + fullmsg.message + '\">' + fullmsg.message + '</a>', isOwn);
+      recieveMessage('<a target=”_blank” href=\"' + fullmsg.message + '\">' + fullmsg.message + '</a>', isOwn, fullmsg.message, fullmsg.author);
 
   });
 
@@ -45,24 +46,68 @@ $(function () {
       fullmsg = JSON.parse(fullmsg);
       let isOwn = fullmsg.author.toString() === $('#username').val();
 
-      recieveMessage('<img src="' + fullmsg.message + '"></img>', isOwn);
+      recieveMessage('<img src="' + fullmsg.message + '"></img>', isOwn, fullmsg.message, fullmsg.author);
 
     });
 
-
-
   });
 
-  function recieveMessage(appendString, isOwn) {
+  function recieveMessage(appendString, isOwn, message, author) {
+      let currentDate = new Date();
       if (isOwn) {
         //own message
-        $('.msg_history').append('<div class="outgoing_msg"><p>' + appendString + '</p><span class="time_date_outgoing"> '+ $('#username').val() +'  11:01 AM    |    June 9</span></div>');
+        $('.msg_history').append('<div class="outgoing_msg"><p>' + appendString + '</p><span class="time_date_outgoing"> '+ author +' @ ' + currentDate.toLocaleTimeString() + ' | ' + currentDate.toDateString() + '</span></div>');
       }
       else {
         //message from others
-        $('.msg_history').append('<div class="incomming_msg"><p>' + appendString + '</p><span class="time_date_incomming"> '+ fullmsg.author.toString() + ' 11:01 AM    |    June 9</span></div>');
+        $('.msg_history').append('<div class="incomming_msg"><p>' + appendString + '</p><span class="time_date_incomming"> '+ author +' @ ' + currentDate.toLocaleTimeString() + ' | ' + currentDate.toDateString() + '</span></div>');
+        
+        //show a notification
+        if (!Notify.needsPermission) {
+            doNotification(message, author);
+        } else if (Notify.isSupported()) {
+            Notify.requestPermission(onPermissionGranted, onPermissionDenied);
+        }
+
       }
 
-      window.scrollTo(0, document.body.scrollHeight);
+      //window.scrollTo(0, document.body.scrollHeight);
+      $('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
     }
+  
+  //functions for notifyjs  
+function doNotification (message, author) {
+      var myNotification = new Notify(('Jaif Ch@, new message from: ' + author), {
+          body: message,
+          tag: 'Jaif-Ch-At',
+          notifyShow: onShowNotification,
+          notifyClose: onCloseNotification,
+          notifyClick: onClickNotification,
+          notifyError: onErrorNotification,
+          timeout: 4
+      });
 
+      myNotification.show();
+  }
+
+function onShowNotification () {
+}
+
+function onCloseNotification () {
+}
+
+function onClickNotification () {
+}
+
+function onErrorNotification () {
+    console.error('Error showing notification. You may need to request permission.');
+}
+
+function onPermissionGranted () {
+    doNotification();
+}
+
+function onPermissionDenied () {
+    console.warn('Permission has been denied by the user');
+}
+//END functions for notifyjs
