@@ -17,7 +17,7 @@ $(function () {
       fullmsg = JSON.parse(fullmsg);
       let isOwn = fullmsg.author.toString() === $('#username').val();
 
-      recieveMessage(isOwn, fullmsg.message, fullmsg.author);
+      recieveMessage(fullmsg.message.toString(), isOwn, fullmsg.message, fullmsg.author);
 
     });
 
@@ -52,18 +52,18 @@ $(function () {
 
   });
 
-  function recieveMessage(isOwn, message, author) {
+  function recieveMessage(appendString, isOwn, message, author) {
       let currentDate = new Date();
       if (isOwn) {
         //own message
-        $('.msg_history').append('<div class="outgoing_msg"><p>' + message.toString() + '</p><span class="time_date_outgoing">' + currentDate.toLocaleTimeString() + ' | ' + currentDate.toDateString() + '</span></div>');
+        $('.msg_history').append('<div class="outgoing_msg"><p>' + appendString + '</p><span class="time_date_outgoing">' + currentDate.toLocaleTimeString() + ' | ' + currentDate.toDateString() + '</span></div>');
       }
       else {
         //message from others
-        $('.msg_history').append('<div class="incomming_msg"><p>' + message.toString() + '</p><span class="time_date_incomming"> '+ author +' @ ' + currentDate.toLocaleTimeString() + ' | ' + currentDate.toDateString() + '</span></div>');
+        $('.msg_history').append('<div class="incomming_msg"><p>' + appendString + '</p><span class="time_date_incomming"> '+ author +' @ ' + currentDate.toLocaleTimeString() + ' | ' + currentDate.toDateString() + '</span></div>');
         
         //show a notification
-        if(!(window.onfocus)) {
+        window.onblur = function () {
           if (!Notify.needsPermission) {
             doNotification(message, author);
           } else if (Notify.isSupported()) {
@@ -79,7 +79,7 @@ $(function () {
   
   //functions for notifyjs  
 function doNotification (message, author) {
-      var myNotification = new Notify(('Jaif Ch@, new message from ' + author), {
+      var myNotification = new Notify(('Jaif Ch@, new message from: ' + author), {
           body: message,
           tag: 'Jaif-Ch-At',
           notifyShow: onShowNotification,
