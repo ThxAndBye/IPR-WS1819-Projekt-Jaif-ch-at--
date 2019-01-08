@@ -138,7 +138,6 @@ function onErrorNotification () {
 }
 
 function onPermissionGranted () {
-    doNotification();
 }
 
 function onPermissionDenied () {
