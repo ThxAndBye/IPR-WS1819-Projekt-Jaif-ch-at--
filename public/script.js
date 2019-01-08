@@ -26,7 +26,7 @@ $(function () {
       urlmsg = JSON.parse(urlmsg);
       let isOwn = urlmsg.author.toString() === $('#username').val();
 
-      recieveMessage('<a target=”_blank” href=\"' + urlmsg.url + '\">' + urlmsg.title + '</a>', isOwn, urlmsg.title, urlmsg.author);
+      recieveMessage('<a target="_blank" href=\"' + urlmsg.url + '\">' + urlmsg.title + '</a>', isOwn, urlmsg.title, urlmsg.author);
 
     });
 
@@ -37,7 +37,7 @@ $(function () {
       let isOwn = fullmsg.author.toString() === $('#username').val();
       console.log("Stuff: " + fullmsg);
 
-      recieveMessage('<a target=”_blank” href=\"' + fullmsg.message + '\">' + fullmsg.message + '</a>', isOwn, fullmsg.message, fullmsg.author);
+      recieveMessage('<a target="_blank" href=\"' + fullmsg.message + '\">' + fullmsg.message + '</a>', isOwn, fullmsg.message, fullmsg.author);
 
   });
 
