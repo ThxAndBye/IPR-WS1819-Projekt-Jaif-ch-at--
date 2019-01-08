@@ -50,6 +50,14 @@ $(function () {
 
     });
 
+    //close modal on Enter
+
+    $('.modal').keypress(function(e){
+      if(e.which == 13) {
+        $('.modal').toggle();
+      }
+    })
+
   });
 
   function recieveMessage(appendString, isOwn, message, author) {
