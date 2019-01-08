@@ -56,7 +56,7 @@ $(function () {
       let currentDate = new Date();
       if (isOwn) {
         //own message
-        $('.msg_history').append('<div class="outgoing_msg"><p>' + appendString + '</p><span class="time_date_outgoing"> '+ author +' @ ' + currentDate.toLocaleTimeString() + ' | ' + currentDate.toDateString() + '</span></div>');
+        $('.msg_history').append('<div class="outgoing_msg"><p>' + appendString + '</p><span class="time_date_outgoing">' + currentDate.toLocaleTimeString() + ' | ' + currentDate.toDateString() + '</span></div>');
       }
       else {
         //message from others
