@@ -63,17 +63,7 @@ $(function () {
         $('.msg_history').append('<div class="incomming_msg"><p>' + appendString + '</p><span class="time_date_incomming"> '+ author +' @ ' + currentDate.toLocaleTimeString() + ' | ' + currentDate.toDateString() + '</span></div>');
         
         //show a notification
-        var isTabActive;
-
-        window.onfocus = function () { 
-          isTabActive = true; 
-        }; 
-        
-        window.onblur = function () { 
-          isTabActive = false; 
-        };
-
-        if(!isTabActive) {
+        if(!(window.onfocus)) {
           if (!Notify.needsPermission) {
             doNotification(message, author);
           } else if (Notify.isSupported()) {
