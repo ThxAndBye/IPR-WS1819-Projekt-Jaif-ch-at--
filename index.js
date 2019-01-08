@@ -6,6 +6,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
 
+//routes for files
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/views/pages/index.html');
 });
@@ -30,6 +31,7 @@ app.get('/notify.js', function(req, res){
   res.sendFile(__dirname + '/public/notify.js');
 });
 
+//socket io handling
 io.on('connection', function(socket){
   socket.on('chat message', function(msg){
 
