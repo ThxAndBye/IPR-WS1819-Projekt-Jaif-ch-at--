@@ -14,6 +14,14 @@ app.get('/styles.css', function(req, res){
   res.sendFile(__dirname + '/public/style.css');
 });
 
+app.get('/favicon.ico', function(req, res){
+  res.sendFile(__dirname + '/views/icons/favicon.ico');
+});
+
+app.get('/paper-plane.svg', function(req, res){
+  res.sendFile(__dirname + '/views/icons/paper-plane.svg');
+});
+
 app.get('/script.js', function(req, res){
   res.sendFile(__dirname + '/public/script.js');
 });
