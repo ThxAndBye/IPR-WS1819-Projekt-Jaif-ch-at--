@@ -17,7 +17,7 @@ $(function () {
       fullmsg = JSON.parse(fullmsg);
       let isOwn = fullmsg.author.toString() === $('#username').val();
 
-      recieveMessage(fullmsg.message.toString(), isOwn, fullmsg.message, fullmsg.author);
+      recieveMessage(isOwn, fullmsg.message, fullmsg.author);
 
     });
 
@@ -52,15 +52,15 @@ $(function () {
 
   });
 
-  function recieveMessage(appendString, isOwn, message, author) {
+  function recieveMessage(isOwn, message, author) {
       let currentDate = new Date();
       if (isOwn) {
         //own message
-        $('.msg_history').append('<div class="outgoing_msg"><p>' + appendString + '</p><span class="time_date_outgoing">' + currentDate.toLocaleTimeString() + ' | ' + currentDate.toDateString() + '</span></div>');
+        $('.msg_history').append('<div class="outgoing_msg"><p>' + message.toString() + '</p><span class="time_date_outgoing">' + currentDate.toLocaleTimeString() + ' | ' + currentDate.toDateString() + '</span></div>');
       }
       else {
         //message from others
-        $('.msg_history').append('<div class="incomming_msg"><p>' + appendString + '</p><span class="time_date_incomming"> '+ author +' @ ' + currentDate.toLocaleTimeString() + ' | ' + currentDate.toDateString() + '</span></div>');
+        $('.msg_history').append('<div class="incomming_msg"><p>' + message.toString() + '</p><span class="time_date_incomming"> '+ author +' @ ' + currentDate.toLocaleTimeString() + ' | ' + currentDate.toDateString() + '</span></div>');
         
         //show a notification
         window.onblur = function () {
