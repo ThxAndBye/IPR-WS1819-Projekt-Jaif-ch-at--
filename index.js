@@ -42,11 +42,11 @@ io.on('connection', function(socket){
     if (!isEmpty) io.emit('chat message', msg);
 
     //message contains url
-    let expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
-    let youtube = /(?:youtube\.[a-z]+.?[a-z]+\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/gi;
+    let urlexp = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+    let youtubeexp = /(?:youtube\.[a-z]+.?[a-z]+\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/gi;
 
-    if(expression.test(chkmsg)) {
-      let urls = chkmsg.match(expression);
+    if(urlexp.test(chkmsg)) {
+      let urls = chkmsg.match(urlexp);
       msg = JSON.parse(msg);
 
       //handle more one or more url(s) in a message
@@ -63,7 +63,7 @@ io.on('connection', function(socket){
           io.emit('image', fullmsg);
 
         //check for youtube
-        } else if(youtube.test(url)){
+        } else if(youtubeexp.test(url)){
           let id = getYouTubeID(url);
           let ytmsg = { "author": msg.author , "id":  id};
           ytmsg = JSON.stringify(ytmsg);
