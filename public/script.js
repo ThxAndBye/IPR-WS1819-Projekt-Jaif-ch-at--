@@ -63,7 +63,17 @@ $(function () {
         $('.msg_history').append('<div class="incomming_msg"><p>' + message.toString() + '</p><span class="time_date_incomming"> '+ author +' @ ' + currentDate.toLocaleTimeString() + ' | ' + currentDate.toDateString() + '</span></div>');
         
         //show a notification
-        window.onblur = function () {
+        var isTabActive;
+
+        window.onfocus = function () { 
+          isTabActive = true; 
+        }; 
+        
+        window.onblur = function () { 
+          isTabActive = false; 
+        };
+
+        if(!isTabActive) {
           if (!Notify.needsPermission) {
             doNotification(message, author);
           } else if (Notify.isSupported()) {
@@ -79,7 +89,7 @@ $(function () {
   
   //functions for notifyjs  
 function doNotification (message, author) {
-      var myNotification = new Notify(('Jaif Ch@, new message from: ' + author), {
+      var myNotification = new Notify(('Jaif Ch@, new message from ' + author), {
           body: message,
           tag: 'Jaif-Ch-At',
           notifyShow: onShowNotification,
