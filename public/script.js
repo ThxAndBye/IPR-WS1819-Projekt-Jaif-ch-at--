@@ -17,7 +17,7 @@ $(function () {
       fullmsg = JSON.parse(fullmsg);
       let isOwn = fullmsg.author.toString() === $('#username').val();
 
-      recieveMessage(fullmsg.message.toString(), isOwn, fullmsg.message);
+      recieveMessage(fullmsg.message.toString(), isOwn, fullmsg.message, fullmsg.author);
 
     });
 
@@ -26,7 +26,7 @@ $(function () {
       urlmsg = JSON.parse(urlmsg);
       let isOwn = urlmsg.author.toString() === $('#username').val();
 
-      recieveMessage('<a target=”_blank” href=\"' + urlmsg.url + '\">' + urlmsg.title + '</a>', isOwn, urlmsg.title);
+      recieveMessage('<a target=”_blank” href=\"' + urlmsg.url + '\">' + urlmsg.title + '</a>', isOwn, urlmsg.title, urlmsg.author);
 
     });
 
@@ -37,7 +37,7 @@ $(function () {
       let isOwn = fullmsg.author.toString() === $('#username').val();
       console.log("Stuff: " + fullmsg);
 
-      recieveMessage('<a target=”_blank” href=\"' + fullmsg.message + '\">' + fullmsg.message + '</a>', isOwn, fullmsg.message);
+      recieveMessage('<a target=”_blank” href=\"' + fullmsg.message + '\">' + fullmsg.message + '</a>', isOwn, fullmsg.message, fullmsg.author);
 
   });
 
@@ -46,13 +46,13 @@ $(function () {
       fullmsg = JSON.parse(fullmsg);
       let isOwn = fullmsg.author.toString() === $('#username').val();
 
-      recieveMessage('<img src="' + fullmsg.message + '"></img>', isOwn, fullmsg.message);
+      recieveMessage('<img src="' + fullmsg.message + '"></img>', isOwn, fullmsg.message, fullmsg.author);
 
     });
 
   });
 
-  function recieveMessage(appendString, isOwn, message) {
+  function recieveMessage(appendString, isOwn, message, author) {
       if (isOwn) {
         //own message
         $('.msg_history').append('<div class="outgoing_msg"><p>' + appendString + '</p></div>');
@@ -63,19 +63,20 @@ $(function () {
         
         //show a notification
         if (!Notify.needsPermission) {
-            doNotification(message);
+            doNotification(message, author);
         } else if (Notify.isSupported()) {
             Notify.requestPermission(onPermissionGranted, onPermissionDenied);
         }
 
       }
 
-      window.scrollTo(0, document.body.scrollHeight);
+      //window.scrollTo(0, document.body.scrollHeight);
+      $('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
     }
   
   //functions for notifyjs  
-function doNotification (message) {
-      var myNotification = new Notify('Jaif Ch@, new message!', {
+function doNotification (message, author) {
+      var myNotification = new Notify(('Jaif Ch@, new message from: ' + author), {
           body: message,
           tag: 'Jaif-Ch-At',
           notifyShow: onShowNotification,
