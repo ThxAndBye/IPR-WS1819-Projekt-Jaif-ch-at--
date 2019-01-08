@@ -65,8 +65,11 @@ $(function () {
     $('.modal').keypress(function(e){
       if(e.which == 13) {
         startChat();
-        
       }
+    })
+
+    $('#btnLogin').click(function(){
+      startChat();
     })
 
     //function executed after username is entered, checks if name is not empty
@@ -81,8 +84,6 @@ $(function () {
   }
 
   });
-
-
 
   //function to add a message to the chat (all parameters are requiered)
   function recieveMessage(appendString, isOwn, message, author) {
