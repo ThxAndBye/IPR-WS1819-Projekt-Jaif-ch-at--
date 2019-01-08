@@ -18,6 +18,10 @@ app.get('/script.js', function(req, res){
   res.sendFile(__dirname + '/public/script.js');
 });
 
+app.get('/notify.js', function(req, res){
+  res.sendFile(__dirname + '/public/notify.js');
+});
+
 io.on('connection', function(socket){
   socket.on('chat message', function(msg){
 

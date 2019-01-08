@@ -34,7 +34,7 @@
     width: 55%;
     padding: 0 10px 0 0;
 }
-.outgoing_msg p a {
+.outgoing_msg > p > a {
      color: wheat;
  }
 
