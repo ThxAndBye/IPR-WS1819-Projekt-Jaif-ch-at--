@@ -47,7 +47,7 @@ $(function () {
         let isOwn = ytmsg.author.toString() === $('#username').val();
   
         console.log(ytmsg);
-        recieveMessage('<iframe id="ytplayer" type="text/html" width="640" height="360" src="https://www.youtube.com/embed/' + ytmsg.id + '" frameborder="0"></iframe>', isOwn, ytmsg.id, ytmsg.author);
+        recieveMessage('<iframe id="ytplayer" type="text/html" src="https://www.youtube.com/embed/' + ytmsg.id + '" frameborder="0"></iframe>', isOwn, ytmsg.id, ytmsg.author);
   
       });
 
