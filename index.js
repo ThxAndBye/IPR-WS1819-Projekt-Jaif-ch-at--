@@ -53,13 +53,13 @@ io.on('connection', function(socket){
 
         //if url is a normal url  
         } else {
-          //get the title from the webpage, emit rawurl in case of a problem
+          //get the title from the webpage
           getTitleAtUrl(url).then(function(title) {
             let urlmsg = { "author": msg.author , "url":  url, "title": title };
             urlmsg = JSON.stringify(urlmsg);
             io.emit('url', urlmsg);
 
-          //if title cant be resolved  
+          //if title can't be resolved, fallback to raw url  
           }).catch((err) => {
             fullmsg = { "author": msg.author , "message": url };
             fullmsg = JSON.stringify(fullmsg);
