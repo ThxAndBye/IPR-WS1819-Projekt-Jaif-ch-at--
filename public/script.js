@@ -55,6 +55,7 @@ $(function () {
     $('.modal').keypress(function(e){
       if(e.which == 13) {
         $('.modal').toggle();
+        $('#m').focus();
       }
     })
 
@@ -87,8 +88,9 @@ $(function () {
 
       $('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
     }
-  
-  //functions for notifyjs  
+
+
+//functions for notifyjs  
 function doNotification (message, author) {
       var myNotification = new Notify(('Jaif Ch@, new message from: ' + author), {
           body: message,
