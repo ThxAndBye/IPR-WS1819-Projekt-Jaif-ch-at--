@@ -19,6 +19,7 @@
 
 
 .incomming_msg {
+    margin:15px 0 15px;
     float: left;
     display: inline-block;
     vertical-align: top;
@@ -104,4 +105,11 @@
 .mesgs {
     height: 100%;
     margin-bottom: 64px;
+}
+
+.time_date {
+    color: #747474;
+    display: block;
+    font-size: 12px;
+    margin: 2px 0 0;
 }
