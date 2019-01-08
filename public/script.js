@@ -63,11 +63,13 @@ $(function () {
         $('.msg_history').append('<div class="incomming_msg"><p>' + appendString + '</p><span class="time_date_incomming"> '+ author +' @ ' + currentDate.toLocaleTimeString() + ' | ' + currentDate.toDateString() + '</span></div>');
         
         //show a notification
-        if (!Notify.needsPermission) {
+        window.onblur = function () {
+          if (!Notify.needsPermission) {
             doNotification(message, author);
-        } else if (Notify.isSupported()) {
-            Notify.requestPermission(onPermissionGranted, onPermissionDenied);
-        }
+          } else if (Notify.isSupported()) {
+              Notify.requestPermission(onPermissionGranted, onPermissionDenied);
+          }
+      }
 
       }
 
