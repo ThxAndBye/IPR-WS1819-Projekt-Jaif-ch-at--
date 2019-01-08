@@ -62,8 +62,12 @@ $(function () {
         //message from others
         $('.msg_history').append('<div class="incomming_msg"><p>' + appendString + '</p><span class="time_date_incomming"> '+ author +' @ ' + currentDate.toLocaleTimeString() + ' | ' + currentDate.toDateString() + '</span></div>');
         
+        
+        //check if windows has focus
+        let focused = document.hasFocus();
+
         //show a notification
-        window.onblur = function () {
+        if(!focused) {
           if (!Notify.needsPermission) {
             doNotification(message, author);
           } else if (Notify.isSupported()) {
