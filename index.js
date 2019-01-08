@@ -63,7 +63,7 @@ io.on('connection', function(socket){
           io.emit('image', fullmsg);
 
         //check for youtube
-        } else if(youtube.test(chkmsg)){
+        } else if(youtube.test(url)){
           let id = getYouTubeID(url);
           let ytmsg = { "author": msg.author , "id":  id};
           ytmsg = JSON.stringify(ytmsg);
