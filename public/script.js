@@ -65,11 +65,11 @@ $(function () {
       if(e.which == 13) {
         startChat();
       }
-    })
+    });
 
     $('#btnLogin').click(function(){
       startChat();
-    })
+    });
 
     //function executed after username is entered, checks if name is not empty
     function startChat(){
