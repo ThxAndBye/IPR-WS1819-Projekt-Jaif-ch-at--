@@ -5,7 +5,7 @@ $(function () {
 
     //sending a message
     $('form').submit(function () {
-      fullmsg = { "author": $('#username').val(), "message": $('#m').val(), time: ""};
+      fullmsg = { "author": $('#username').val(), "message": $('#m').val(), "time": "", isNew: "0"};
       fullmsg = JSON.stringify(fullmsg);
 
       socket.emit('chat message', fullmsg);
@@ -19,7 +19,7 @@ $(function () {
       let isOwn = fullmsg.author.toString() === $('#username').val();
       time = fullmsg.time;
 
-      recieveMessage(fullmsg.message.toString(), isOwn, fullmsg.message, fullmsg.author, time);
+      recieveMessage(fullmsg.message.toString(), isOwn, fullmsg.message, fullmsg.author, time, fullmsg.isNew);
 
     });
 
@@ -28,7 +28,7 @@ $(function () {
       urlmsg = JSON.parse(urlmsg);
       let isOwn = urlmsg.author.toString() === $('#username').val();
 
-      recieveMessage('<a target="_blank" href=\"' + urlmsg.url + '\">' + urlmsg.title + '</a>', isOwn, urlmsg.title, urlmsg.author, time);
+      recieveMessage('<a target="_blank" href=\"' + urlmsg.url + '\">' + urlmsg.title + '</a>', isOwn, urlmsg.title, urlmsg.author, time, urlmsg.isNew);
 
     });
 
@@ -37,7 +37,7 @@ $(function () {
       fullmsg = JSON.parse(fullmsg);
       let isOwn = fullmsg.author.toString() === $('#username').val();
 
-      recieveMessage('<a target="_blank" href=\"' + fullmsg.message + '\">' + fullmsg.message + '</a>', isOwn, fullmsg.message, fullmsg.author, time);
+      recieveMessage('<a target="_blank" href=\"' + fullmsg.message + '\">' + fullmsg.message + '</a>', isOwn, fullmsg.message, fullmsg.author, time, fullmsg.isNew);
 
   });
 
@@ -46,7 +46,7 @@ $(function () {
         ytmsg = JSON.parse(ytmsg);
         let isOwn = ytmsg.author.toString() === $('#username').val();
   
-        recieveMessage('<iframe id="ytplayer" type="text/html" src="https://www.youtube.com/embed/' + ytmsg.id + '" frameborder="0"></iframe>', isOwn, 'YouTube: ' + ytmsg.id, ytmsg.author, time);
+        recieveMessage('<iframe id="ytplayer" type="text/html" src="https://www.youtube.com/embed/' + ytmsg.id + '" frameborder="0"></iframe>', isOwn, 'YouTube: ' + ytmsg.id, ytmsg.author, time, ytmsg.isNew);
   
       });
 
@@ -55,7 +55,7 @@ $(function () {
       fullmsg = JSON.parse(fullmsg);
       let isOwn = fullmsg.author.toString() === $('#username').val();
 
-      recieveMessage('<img src="' + fullmsg.message + '"></img>', isOwn, fullmsg.message, fullmsg.author, time);
+      recieveMessage('<img src="' + fullmsg.message + '"></img>', isOwn, fullmsg.message, fullmsg.author, time, fullmsg.isNew);
 
     });
 
@@ -85,10 +85,10 @@ $(function () {
   });
 
   //function to add a message to the chat (all parameters are requiered)
-  function recieveMessage(appendString, isOwn, message, author, msgtime) {
+  function recieveMessage(appendString, isOwn, message, author, msgtime, msgIsNew) {
       let msgDate = new Date(0);
       msgDate.setUTCMilliseconds(msgtime);
-      
+
       if (isOwn) {
         //own message
         $('.msg_history').append('<div class="outgoing_msg"><p>' + appendString + '</p><span class="time_date_outgoing">' + msgDate.toLocaleTimeString() + ' | ' + msgDate.toDateString() + '</span></div>');
@@ -112,8 +112,10 @@ $(function () {
 
       }
 
-      //scroll chat to the bottom
-      $('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
+      //scroll chat to the bottom for "new" messages
+      if (msgIsNew === 1) {
+        $('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
+      }
     }
 
 

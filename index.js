@@ -46,6 +46,14 @@ io.on('connection', function(socket){
     //send old messages to new client 
     for (let i = 0; i < messages.length; i++) {
         let oldmsg = messages[i];
+
+        //only mark the last message as "new"
+        if(i === (messages.length - 1)){
+          oldmsg = JSON.parse(oldmsg);
+          oldmsg.isNew = 1;
+          oldmsg = JSON.stringify(oldmsg);
+        }
+
         parseMessage(oldmsg, true, id);
       
     }
@@ -65,8 +73,12 @@ io.on('connection', function(socket){
       messages.push(msg);
     }
 
+    msg = JSON.parse(msg);
+    msg.isNew = 1;
+    msg = JSON.stringify(msg);
+
     //send message out to connected clients
-    parseMessage(msg, false, null);
+    parseMessage(msg, false);
   });
 });
 
@@ -103,7 +115,7 @@ function parseMessage(msg, additional, socketId){
       url = addhttp(url).toString();
 
       //build the message
-      fullmsg = { "author": msg.author , "message": url };
+      fullmsg = { "author": msg.author , "message": url, "isNew": msg.isNew };
       fullmsg = JSON.stringify(fullmsg);
 
       //check if url is image
@@ -117,7 +129,7 @@ function parseMessage(msg, additional, socketId){
       //check for youtube
       } else if(youtubeexp.test(url)){
         let id = getYouTubeID(url);
-        let ytmsg = { "author": msg.author , "id":  id};
+        let ytmsg = { "author": msg.author , "id":  id, "isNew": msg.isNew };
         ytmsg = JSON.stringify(ytmsg);
         if (!additional) {
           io.emit('youtube', ytmsg);
@@ -129,7 +141,7 @@ function parseMessage(msg, additional, socketId){
       } else {
         //get the title from the webpage
         getTitleAtUrl(url).then(function(title) {
-          let urlmsg = { "author": msg.author , "url":  url, "title": title };
+          let urlmsg = { "author": msg.author , "url":  url, "title": title, "isNew": msg.isNew };
           urlmsg = JSON.stringify(urlmsg);
           if (!additional) {
             io.emit('url', urlmsg);
@@ -139,7 +151,7 @@ function parseMessage(msg, additional, socketId){
 
         //if title can't be resolved, fallback to raw url  
         }).catch((err) => {
-          fullmsg = { "author": msg.author , "message": url };
+          fullmsg = { "author": msg.author , "message": url, "isNew": msg.isNew  };
           fullmsg = JSON.stringify(fullmsg);
           if (!additional) {
             io.emit('rawurl', fullmsg);
