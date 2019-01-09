@@ -54,6 +54,12 @@ io.on('connection', function(socket){
 
   socket.on('chat message', function(msg){
 
+    let currentDate = new Date();
+
+    msg = JSON.parse(msg);
+    msg.time = currentDate.getTime();
+    msg = JSON.stringify(msg);
+
     //add message to array
     if(!(JSON.parse(msg).message === "")){
       messages.push(msg);
