@@ -1,8 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 
 <head>
   <meta charset="utf-8">
+  
+  <!-- prevent external JS -->
   <meta http-equiv="Content-Security-Policy"
   content="script-src
     https://maxcdn.bootstrapcdn.com/
@@ -10,23 +12,43 @@
     https://code.jquery.com/
     https://cdn.socket.io/
     'self';">
+	<!-- prevent mobile zoom (it breaks things) -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=0">
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-    crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script>
+	<!-- external files for Bootstrap, jQuery -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-  <title>IPR WS1819 JaifCh@</title>
+  <title>IPR WS1819 Jaif ch@</title>
   <link rel="stylesheet" href="/styles.css">
 </head>
 
+<!-- 
+░░░░░░░░▄▄▄███░░░░░░░░░░░░░░░░░░░░
+░░░▄▄██████████░░░░░░░░░░░░░░░░░░░
+░███████████████░░░░░░░░░░░░░░░░░░
+░▀███████████████░░░░░▄▄▄░░░░░░░░░
+░░░███████████████▄███▀▀▀░░░░░░░░░
+░░░░███████████████▄▄░░░░░░░░░░░░░
+░░░░▄████████▀▀▄▄▄▄▄░▀░░░░░░░░░░░░
+▄███████▀█▄▀█▄░░█░▀▀▀░█░░▄▄░░░░░░░
+▀▀░░░██▄█▄░░▀█░░▄███████▄█▀░░░▄░░░
+░░░░░█░█▀▄▄▀▄▀░█▀▀▀█▀▄▄▀░░░░░░▄░▄█
+░░░░░█░█░░▀▀▄▄█▀░█▀▀░░█░░░░░░░▀██░
+░░░░░▀█▄░░░░░░░░░░░░░▄▀░░░░░░▄██░░
+░░░░░░▀█▄▄░░░░░░░░▄▄█░░░░░░▄▀░░█░░
+░░░░░░░░░▀███▀▀████▄██▄▄░░▄▀░░░░░░
+░░░░░░░░░░░█▄▀██▀██▀▄█▄░▀▀░░░░░░░░
+░░░░░░░░░░░██░▀█▄█░█▀░▀▄░░░░░░░░░░
+░░░░░░░░░░█░█▄░░▀█▄▄▄░░█░░░░░░░░░░
+░░░░░░░░░░█▀██▀▀▀▀░█▄░░░░░░░░░░░░░
+░░░░░░░░░░░░▀░░░░░░░░░░░▀░░░░░░░░░
+-->
 <body>
 
+<!-- modal for username -->
   <div class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -43,12 +65,14 @@
       </div>
     </div>
   </div>
+  
+  <!-- this is where messages are inserted -->
   <div class="mesgs">
     <div class="msg_history">
     </div>
   </div>
 
-
+<!-- input field -->
   <div class="type_msg">
     <div class="input_msg_write">
       <form action="">
@@ -59,7 +83,7 @@
   </div>
 
 
-
+<!-- JS files for socketIO, jQuery, chat relevant JS and notifications -->
   <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
   <script src="/script.js"></script>
