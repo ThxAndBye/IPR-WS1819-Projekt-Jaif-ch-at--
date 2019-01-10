@@ -2,9 +2,11 @@ $(function () {
     var socket = io();
     var time;
     
-    Notify.requestPermission().catch((err) => {
-      console.error("Notification failed.")
-    });
+    try {
+    Notify.requestPermission()
+    } catch(err) {
+      console.log("Nofification failed");
+    } 
 
     //sending a message
     $('form').submit(function () {
