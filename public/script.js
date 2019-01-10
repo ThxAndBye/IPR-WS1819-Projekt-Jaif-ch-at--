@@ -1,8 +1,7 @@
 $(function () {
     var socket = io();
     var time;
-    var clickHandler = ('ontouchstart' in document.documentElement ? "touchstart" : "click");
-
+    
     Notify.requestPermission();
 
     //sending a message
@@ -74,13 +73,9 @@ $(function () {
     });
 
     //for iOS
-    function touchStart(event){
-      event.preventDefault();
-      var numtouch = event.touches.length;
-      alert(numtouch);
-    };
-
-    $('#btnLogin').addEventListener( 'touchstart', touchStart, false);
+    $('#btnLogin').on('touchstart', function(){
+      startChat();
+    });
 
     //function executed after username is entered, checks if name is not empty
     function startChat(){
