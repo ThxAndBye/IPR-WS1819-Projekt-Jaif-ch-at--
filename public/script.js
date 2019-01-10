@@ -71,6 +71,11 @@ $(function () {
       startChat();
     });
 
+    //for iOS
+    $('#btnLogin').ontouchstart(function(){
+      startChat();
+    });
+
     //function executed after username is entered, checks if name is not empty
     function startChat(){
       if ($('#username').val().replace(/\s/g, '').length) {
