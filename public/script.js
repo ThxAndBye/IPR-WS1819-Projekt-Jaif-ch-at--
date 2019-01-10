@@ -1,6 +1,8 @@
 $(function () {
     var socket = io();
     var time;
+    var clickHandler = ('ontouchstart' in document.documentElement ? "touchstart" : "click");
+
     Notify.requestPermission();
 
     //sending a message
@@ -72,9 +74,9 @@ $(function () {
     });
 
     //for iOS
-    $('#btnLogin').ontouchstart(function(){
+    $('#btnLogin').bind(clickHandler, function(e) {
       startChat();
-    });
+  });
 
     //function executed after username is entered, checks if name is not empty
     function startChat(){
