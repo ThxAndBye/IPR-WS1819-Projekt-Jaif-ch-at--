@@ -47,7 +47,7 @@ body {
     margin: 0;
     padding: 5px 10px 5px 12px;
     width: 100%;
-    word-break: break-all;
+    word-break: inherit;
 }
 
 .outgoing_msg p {
@@ -58,7 +58,7 @@ body {
     margin: 0;
     padding: 5px 10px 5px 12px;
     width: 100%;
-    word-break: break-all;
+    word-break: inherit;
 }
 
 .msg_history {
@@ -133,6 +133,12 @@ body {
 
 @media screen and (max-width: 768px) {
     #ytplayer {
-        min-height: 160px;
+        min-height: 260px;
+    }
+    .incomming_msg {
+        width: 85%;
+    }
+    .outgoing_msg {
+        width: 85%;
     }
 }
