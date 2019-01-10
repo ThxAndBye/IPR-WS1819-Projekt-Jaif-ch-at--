@@ -48,6 +48,7 @@ body {
     padding: 5px 10px 5px 12px;
     width: 100%;
     word-break: inherit;
+    word-wrap: break-word;
 }
 
 .outgoing_msg p {
@@ -59,6 +60,7 @@ body {
     padding: 5px 10px 5px 12px;
     width: 100%;
     word-break: inherit;
+    word-wrap: break-word;
 }
 
 .msg_history {
