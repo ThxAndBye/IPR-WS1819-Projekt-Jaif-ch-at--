@@ -74,9 +74,13 @@ $(function () {
     });
 
     //for iOS
-    $('#btnLogin').bind(clickHandler, function(e) {
-      startChat();
-  });
+    function touchStart(event){
+      event.preventDefault();
+      var numtouch = event.touches.length;
+      alert(numtouch);
+    };
+
+    $('#btnLogin').addEventListener( 'touchstart', touchStart, false);
 
     //function executed after username is entered, checks if name is not empty
     function startChat(){
